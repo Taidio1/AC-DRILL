@@ -34,7 +34,6 @@ jobs:
         with:
           # Vite domyślnie buduje do folderu dist
           path: ./dist
-          name: web-app-build
 
   deploy:
     environment:
@@ -46,5 +45,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          artifact_name: web-app-build
