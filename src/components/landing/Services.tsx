@@ -1,6 +1,8 @@
 import { Drill, CircleDot, CheckCircle, ArrowRight } from 'lucide-react';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { Button } from '@/components/ui/button';
+import hddImg from '@/img/hdd.jpg';
+import przebiciaImg from '@/img/Przebicia Rurą Stalową.jpg';
 
 const services = [
   {
@@ -14,8 +16,7 @@ const services = [
       'Prace na terenach zielonych bez niszczenia nawierzchni',
       'Precyzyjna nawigacja GPS',
     ],
-    image:
-      'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&q=80',
+    image: hddImg,
   },
   {
     icon: CircleDot,
@@ -28,8 +29,7 @@ const services = [
       'Wysokie nośności rur osłonowych',
       'Szybka realizacja krótkich odcinków',
     ],
-    image:
-      'https://images.unsplash.com/photo-1590496793929-36417d3117de?w=600&q=80',
+    image: przebiciaImg,
   },
 ];
 
@@ -50,9 +50,8 @@ export function Services() {
       <div ref={ref} className="container mx-auto px-4">
         {/* Section Header */}
         <div
-          className={`text-center max-w-2xl mx-auto mb-16 ${
-            isIntersecting ? 'animate-fade-in-up' : 'opacity-0'
-          }`}
+          className={`text-center max-w-2xl mx-auto mb-16 ${isIntersecting ? 'animate-fade-in-up' : 'opacity-0'
+            }`}
         >
           <span className="inline-block px-4 py-1 bg-primary/10 text-primary text-sm font-semibold rounded-full mb-4">
             Nasza Oferta
@@ -71,13 +70,12 @@ export function Services() {
           {services.map((service, index) => (
             <div
               key={service.title}
-              className={`group relative bg-card rounded-3xl overflow-hidden border border-border shadow-sm hover:shadow-2xl transition-all duration-500 ${
-                isIntersecting
-                  ? index === 0
-                    ? 'animate-fade-in-left'
-                    : 'animate-fade-in-right'
-                  : 'opacity-0'
-              }`}
+              className={`group relative bg-card rounded-3xl overflow-hidden border border-border shadow-sm hover:shadow-2xl transition-all duration-500 ${isIntersecting
+                ? index === 0
+                  ? 'animate-fade-in-left'
+                  : 'animate-fade-in-right'
+                : 'opacity-0'
+                }`}
               style={{ animationDelay: `${index * 150}ms` }}
             >
               {/* Image */}
