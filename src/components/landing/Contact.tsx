@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, Loader2 } from 'lucide-react';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -38,11 +38,37 @@ export function Contact() {
     phone: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success('Dziękujemy za wiadomość! Skontaktujemy się wkrótce.');
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/contact.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast.success(data.message || 'Wiadomość została wysłana pomyślnie!');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      } else {
+        toast.error(data.message || 'Wystąpił problem z wysłaniem wiadomości.');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      // In development mode (localhost), we might fail to hit the PHP script if not proxied, 
+      // but on production it should work.
+      toast.error('Wystąpił błąd połączenia. Spróbuj ponownie później.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -83,11 +109,13 @@ export function Contact() {
                 </label>
                 <Input
                   id="name"
+                  required
                   placeholder="Jan Kowalski"
                   value={formData.name}
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
+                  disabled={isSubmitting}
                   className="bg-background border-border"
                 />
               </div>
@@ -102,11 +130,13 @@ export function Contact() {
                   <Input
                     id="email"
                     type="email"
+                    required
                     placeholder="jan@firma.pl"
                     value={formData.email}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
+                    disabled={isSubmitting}
                     className="bg-background border-border"
                   />
                 </div>
@@ -125,6 +155,7 @@ export function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, phone: e.target.value })
                     }
+                    disabled={isSubmitting}
                     className="bg-background border-border"
                   />
                 </div>
@@ -138,22 +169,34 @@ export function Contact() {
                 </label>
                 <Textarea
                   id="message"
+                  required
                   placeholder="Opisz swój projekt: lokalizacja, długość przewiertu, średnica rury..."
                   rows={5}
                   value={formData.message}
                   onChange={(e) =>
                     setFormData({ ...formData, message: e.target.value })
                   }
+                  disabled={isSubmitting}
                   className="bg-background border-border resize-none"
                 />
               </div>
               <Button
                 type="submit"
                 size="lg"
+                disabled={isSubmitting}
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all group"
               >
-                Wyślij zapytanie
-                <Send className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                {isSubmitting ? (
+                  <>
+                    Wysyłanie...
+                    <Loader2 className="ml-2 w-5 h-5 animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Wyślij zapytanie
+                    <Send className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </>
+                )}
               </Button>
             </form>
           </div>
