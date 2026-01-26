@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Drill } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import logo from '@/img/acdrilllogo.png';
 
 const navItems = [
   { label: 'Start', href: '#start' },
   { label: 'Oferta', href: '#oferta' },
   { label: 'Park Maszynowy', href: '#maszyny' },
-  { label: 'Realizacje', href: '#realizacje' },
   { label: 'Kontakt', href: '#kontakt' },
 ];
 
@@ -32,11 +32,10 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-background/95 backdrop-blur-md shadow-lg'
-          : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-background/95 backdrop-blur-md shadow-lg'
+        : 'bg-transparent'
+        }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
@@ -49,17 +48,14 @@ export function Header() {
             }}
             className="flex items-center gap-2 group"
           >
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:animate-pulse-glow transition-all">
-              <Drill className="w-6 h-6 text-primary-foreground" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-lg text-foreground leading-tight">
-                Inżynieria
-              </span>
-              <span className="text-xs text-primary font-semibold tracking-wider uppercase">
-                Bezwykopowa
-              </span>
-            </div>
+            <img
+              src={logo}
+              alt="AC Drill"
+              className="h-12 w-auto object-contain"
+            />
+            <span className="font-bold text-xl text-foreground leading-none tracking-tight">
+              AC Drill
+            </span>
           </a>
 
           {/* Desktop Navigation */}
@@ -102,9 +98,8 @@ export function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-300 ${
-          isMobileMenuOpen ? 'max-h-96 bg-background/95 backdrop-blur-md' : 'max-h-0'
-        }`}
+        className={`lg:hidden overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'max-h-96 bg-background/95 backdrop-blur-md' : 'max-h-0'
+          }`}
       >
         <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
           {navItems.map((item) => (

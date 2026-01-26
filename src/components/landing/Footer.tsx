@@ -1,10 +1,10 @@
-import { Drill, Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
+import logo from '@/img/acdrilllogo.png';
 
 const navLinks = [
   { label: 'Start', href: '#start' },
   { label: 'Oferta', href: '#oferta' },
   { label: 'Park Maszynowy', href: '#maszyny' },
-  { label: 'Realizacje', href: '#realizacje' },
   { label: 'Kontakt', href: '#kontakt' },
 ];
 
@@ -23,25 +23,17 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <Drill className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-lg leading-tight">
-                  Inżynieria
-                </span>
-                <span className="text-xs text-primary font-semibold tracking-wider uppercase">
-                  Bezwykopowa
-                </span>
-              </div>
+              <img
+                src={logo}
+                alt="AC Drill"
+                className="h-12 w-auto object-contain"
+              />
+              <span className="font-bold text-xl leading-none tracking-tight">
+                AC Drill
+              </span>
             </div>
             <p className="text-secondary-foreground/70 mb-4 max-w-md">
-              ZAKŁAD INSTALACJI WODNO-KANALIZACYJNYCH, GAZU ORAZ CENTRALNEGO
-              OGRZEWANIA
-            </p>
-            <p className="text-secondary-foreground/60 text-sm">
-              Profesjonalne usługi przewiertów sterowanych HDD i przecisków.
-              Działamy na terenie całej Polski.
+              Adrian Csorich Zakład Instalacji Wodno-Kanalizacyjnych Gazu oraz Centralnego Ogrzewania Warszawa
             </p>
           </div>
 
@@ -82,10 +74,10 @@ export function Footer() {
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary" />
                 <a
-                  href="mailto:biuro@inzynieria-bezwykopowa.pl"
+                  href="mailto:biuro@acdrill.pl"
                   className="text-secondary-foreground/70 hover:text-primary transition-colors text-sm"
                 >
-                  biuro@inzynieria-bezwykopowa.pl
+                  biuro@acdrill.pl
                 </a>
               </li>
               <li className="flex items-start gap-3">
@@ -101,7 +93,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-secondary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-secondary-foreground/50 text-sm text-center md:text-left">
-            © {new Date().getFullYear()} Inżynieria Bezwykopowa. Wszelkie prawa
+            © {new Date().getFullYear()} AC Drill. Wszelkie prawa
             zastrzeżone.
           </p>
           <div className="flex gap-6 text-sm">

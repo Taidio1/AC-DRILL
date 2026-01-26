@@ -4,7 +4,7 @@ import { Stats } from '@/components/landing/Stats';
 import { Services } from '@/components/landing/Services';
 import { Machinery } from '@/components/landing/Machinery';
 import { Process } from '@/components/landing/Process';
-import { Projects } from '@/components/landing/Projects';
+// import { Projects } from '@/components/landing/Projects';
 import { FAQ } from '@/components/landing/FAQ';
 import { Contact } from '@/components/landing/Contact';
 import { Footer } from '@/components/landing/Footer';
@@ -19,7 +19,7 @@ const Index = () => {
         <Services />
         <Machinery />
         <Process />
-        <Projects />
+        {/* <Projects /> */}
         <FAQ />
         <Contact />
       </main>

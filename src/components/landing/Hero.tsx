@@ -93,14 +93,14 @@ export function Hero() {
             <p className="text-sm text-muted-foreground mb-3">
               Zaufali nam wykonawcy i inwestorzy z całej Polski
             </p>
-            <div className="flex items-center gap-4">
+            {/* <div className="flex items-center gap-4">
               <div className="text-sm">
                 <span className="font-semibold text-foreground">100+</span>{' '}
                 <span className="text-muted-foreground">
                   zrealizowanych projektów
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

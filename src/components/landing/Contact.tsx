@@ -16,8 +16,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'biuro@inzynieria-bezwykopowa.pl',
-    href: 'mailto:biuro@inzynieria-bezwykopowa.pl',
+    value: 'biuro@acdrill.pl',
+    href: 'mailto:biuro@acdrill.pl',
   },
   {
     icon: MapPin,
