@@ -33,7 +33,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-secondary-foreground/70 mb-4 max-w-md">
-              Adrian Csorich Zakład Instalacji Wodno-Kanalizacyjnych Gazu oraz Centralnego Ogrzewania Warszawa
+              Adrian Csorich Zakład Instalacji Wodno-Kanalizacyjnych Gazu oraz Centralnego Ogrzewania
             </p>
           </div>
 

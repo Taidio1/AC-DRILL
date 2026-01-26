@@ -53,8 +53,8 @@ export function Header() {
               alt="AC Drill"
               className="h-12 w-auto object-contain"
             />
-            <span className="font-bold text-xl text-foreground leading-none tracking-tight">
-              AC Drill
+            <span className="font-bold pb-2 text-4xl text-foreground leading-none tracking-tight">
+              Drill
             </span>
           </a>
 

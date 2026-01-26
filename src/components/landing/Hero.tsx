@@ -52,9 +52,8 @@ export function Hero() {
 
           {/* Heading */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight animate-fade-in-up [animation-delay:100ms] opacity-0">
-            Profesjonalne{' '}
-            <span className="text-primary">Przewierty Sterowane</span> HDD i
-            Przebicia Pod Drogami
+            Profesjonalne{' '} <br />
+            <span className="text-primary">Przewierty Sterowane</span> HDD
           </h1>
 
           {/* Subheading */}
