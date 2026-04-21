@@ -1,0 +1,8 @@
+<Files "config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files "_auth.php">
+    Order allow,deny
+    Deny from all
+</Files>

@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logo from '@/img/acdrilllogo.png';
 
 const navItems = [
-  { label: 'Start', href: '#start' },
-  { label: 'Oferta', href: '#oferta' },
-  { label: 'Park Maszynowy', href: '#maszyny' },
-  { label: 'Kontakt', href: '#kontakt' },
+  { label: 'Start',          href: '/#start',   isRoute: false },
+  { label: 'Oferta',         href: '/#oferta',  isRoute: false },
+  { label: 'Park Maszynowy', href: '/#maszyny', isRoute: false },
+  { label: 'Galeria',        href: '/galeria',  isRoute: true  },
+  { label: 'Kontakt',        href: '/#kontakt', isRoute: false },
 ];
 
 export function Header() {
@@ -60,20 +62,35 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(item.href);
-                }}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors relative group"
-              >
-                {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-              </a>
-            ))}
+            {navItems.map((item) =>
+              item.isRoute ? (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors relative group"
+                >
+                  {item.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                </Link>
+              ) : (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => {
+                    if (item.href.startsWith('/#')) {
+                      e.preventDefault();
+                      const id = item.href.slice(2);
+                      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors relative group"
+                >
+                  {item.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                </a>
+              )
+            )}
           </nav>
 
           {/* CTA Button */}
@@ -102,19 +119,34 @@ export function Header() {
           }`}
       >
         <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection(item.href);
-              }}
-              className="text-base font-medium text-muted-foreground hover:text-primary transition-colors py-2"
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) =>
+            item.isRoute ? (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-base font-medium text-muted-foreground hover:text-primary transition-colors py-2"
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={(e) => {
+                  if (item.href.startsWith('/#')) {
+                    e.preventDefault();
+                    const id = item.href.slice(2);
+                    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                  setIsMobileMenuOpen(false);
+                }}
+                className="text-base font-medium text-muted-foreground hover:text-primary transition-colors py-2"
+              >
+                {item.label}
+              </a>
+            )
+          )}
           <Button
             onClick={() => scrollToSection('#kontakt')}
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold mt-2"
