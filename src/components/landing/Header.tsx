@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logo from '@/img/acdrilllogo.png';
@@ -15,6 +15,8 @@ const navItems = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,12 +26,56 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  // Handle scrolling to hash on page load or location change
+  useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = location.hash || window.location.hash;
+      if (location.pathname === '/' && hash) {
+        const id = hash.substring(1);
+        const element = document.getElementById(id);
+        if (element) {
+          // Delay to ensure content is rendered and layout is stable
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }, 200);
+        }
+      }
+    };
+
+    handleHashScroll();
+    // Also listen for potential external hash changes
+    window.addEventListener('hashchange', handleHashScroll);
+    return () => window.removeEventListener('hashchange', handleHashScroll);
+  }, [location.pathname, location.hash]);
+
+  const scrollToSection = (e: React.MouseEvent, href: string) => {
     setIsMobileMenuOpen(false);
+    
+    // If it's a direct route (like /galeria), let the Link component handle it
+    const item = navItems.find(i => i.href === href);
+    if (item?.isRoute) return;
+
+    const [path, hash] = href.split('#');
+    
+    // Normalize path for comparison (handling both / and empty)
+    const currentPath = location.pathname === '/' ? '/' : location.pathname;
+    const targetPath = path === '' || path === '/' ? '/' : path;
+
+    if (currentPath === targetPath) {
+      if (hash) {
+        e.preventDefault();
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          // Update URL hash without jumping
+          window.history.pushState(null, '', `#${hash}`);
+        }
+      }
+    } else {
+      // If we are on a different page, we want the default Link behavior 
+      // which is to navigate to the 'to' prop. 
+      // No preventDefault() here means it will navigate.
+    }
   };
 
   return (
@@ -42,12 +88,9 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a
-            href="#start"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection('#start');
-            }}
+          <Link
+            to="/#start"
+            onClick={(e) => scrollToSection(e, '/#start')}
             className="flex items-center gap-2 group"
           >
             <img
@@ -58,11 +101,11 @@ export function Header() {
             <span className="font-bold pb-2 text-4xl text-foreground leading-none tracking-tight">
               Drill
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
-            {navItems.map((item) =>
+            {navItems.map((item) => (
               item.isRoute ? (
                 <Link
                   key={item.href}
@@ -73,30 +116,23 @@ export function Header() {
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
                 </Link>
               ) : (
-                <a
+                <Link
                   key={item.href}
-                  href={item.href}
-                  onClick={(e) => {
-                    if (item.href.startsWith('/#')) {
-                      e.preventDefault();
-                      const id = item.href.slice(2);
-                      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-                    }
-                    setIsMobileMenuOpen(false);
-                  }}
+                  to={item.href}
+                  onClick={(e) => scrollToSection(e, item.href)}
                   className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors relative group"
                 >
                   {item.label}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-                </a>
+                </Link>
               )
-            )}
+            ))}
           </nav>
 
           {/* CTA Button */}
           <div className="hidden lg:block">
             <Button
-              onClick={() => scrollToSection('#kontakt')}
+              onClick={(e) => scrollToSection(e, '/#kontakt')}
               className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
             >
               Darmowa Wycena
@@ -119,7 +155,7 @@ export function Header() {
           }`}
       >
         <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
-          {navItems.map((item) =>
+          {navItems.map((item) => (
             item.isRoute ? (
               <Link
                 key={item.href}
@@ -130,25 +166,18 @@ export function Header() {
                 {item.label}
               </Link>
             ) : (
-              <a
+              <Link
                 key={item.href}
-                href={item.href}
-                onClick={(e) => {
-                  if (item.href.startsWith('/#')) {
-                    e.preventDefault();
-                    const id = item.href.slice(2);
-                    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-                  }
-                  setIsMobileMenuOpen(false);
-                }}
+                to={item.href}
+                onClick={(e) => scrollToSection(e, item.href)}
                 className="text-base font-medium text-muted-foreground hover:text-primary transition-colors py-2"
               >
                 {item.label}
-              </a>
+              </Link>
             )
-          )}
+          ))}
           <Button
-            onClick={() => scrollToSection('#kontakt')}
+            onClick={(e) => scrollToSection(e, '/#kontakt')}
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold mt-2"
           >
             Darmowa Wycena

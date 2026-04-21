@@ -1,18 +1,28 @@
+import { Link, useLocation } from 'react-router-dom';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import logo from '@/img/acdrilllogo.png';
 
 const navLinks = [
-  { label: 'Start', href: '#start' },
-  { label: 'Oferta', href: '#oferta' },
-  { label: 'Park Maszynowy', href: '#maszyny' },
-  { label: 'Kontakt', href: '#kontakt' },
+  { label: 'Start', href: '/#start' },
+  { label: 'Oferta', href: '/#oferta' },
+  { label: 'Park Maszynowy', href: '/#maszyny' },
+  { label: 'Kontakt', href: '/#kontakt' },
 ];
 
 export function Footer() {
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const location = useLocation();
+
+  const scrollToSection = (e: React.MouseEvent, href: string) => {
+    if (location.pathname === '/') {
+      const hash = href.split('#')[1];
+      if (hash) {
+        e.preventDefault();
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          window.history.pushState(null, '', `#${hash}`);
+        }
+      }
     }
   };
 
@@ -43,18 +53,23 @@ export function Footer() {
             <ul className="space-y-3">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href);
-                    }}
+                  <Link
+                    to={link.href}
+                    onClick={(e) => scrollToSection(e, link.href)}
                     className="text-secondary-foreground/70 hover:text-primary transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  to="/galeria"
+                  className="text-secondary-foreground/70 hover:text-primary transition-colors"
+                >
+                  Galeria
+                </Link>
+              </li>
             </ul>
           </div>
 
